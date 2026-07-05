@@ -5,7 +5,6 @@ A structured path from absolute basics to advanced, production-level Python. Rea
 ---
 
 ## Table of Contents
-
 1. Setup & Running Python
 2. Syntax, Variables, Data Types
 3. Operators
@@ -31,7 +30,9 @@ A structured path from absolute basics to advanced, production-level Python. Rea
 23. Virtual Environments & Packaging
 24. Memory Management & Performance
 25. Best Practices & Idiomatic Python
-26. Where to Go Next
+26. Deeper Language Internals
+27. Practical Tooling for Real Projects
+28. Where to Go Next
 
 ---
 
@@ -65,20 +66,18 @@ z = None            # NoneType
 ```
 
 ### Core built-in types
-
-| Type  | Example   | Mutable? |
-| ----- | --------- | -------- |
-| int   | `5`       | No       |
-| float | `5.0`     | No       |
-| str   | `"hi"`    | No       |
-| bool  | `True`    | No       |
-| list  | `[1,2,3]` | Yes      |
-| tuple | `(1,2,3)` | No       |
-| dict  | `{"a":1}` | Yes      |
-| set   | `{1,2,3}` | Yes      |
+| Type | Example | Mutable? |
+|---|---|---|
+| int | `5` | No |
+| float | `5.0` | No |
+| str | `"hi"` | No |
+| bool | `True` | No |
+| list | `[1,2,3]` | Yes |
+| tuple | `(1,2,3)` | No |
+| dict | `{"a":1}` | Yes |
+| set | `{1,2,3}` | Yes |
 
 ### Dynamic typing
-
 Variables aren't declared with a type — the object has a type, the name is just a label.
 
 ```python
@@ -87,7 +86,6 @@ x = "now I'm a string"   # totally legal
 ```
 
 ### Type checking & conversion
-
 ```python
 type(x)              # <class 'str'>
 isinstance(x, str)    # True
@@ -97,7 +95,6 @@ float("3.14")         # 3.14
 ```
 
 ### Multiple assignment
-
 ```python
 a, b, c = 1, 2, 3
 a, b = b, a           # swap without a temp variable
@@ -212,7 +209,6 @@ Strings are **immutable** — every "modification" creates a new string.
 ## 6. Data Structures
 
 ### Lists — ordered, mutable
-
 ```python
 nums = [1, 2, 3]
 nums.append(4)
@@ -227,16 +223,13 @@ nums + [5, 6]           # concatenation
 ```
 
 ### Tuples — ordered, immutable
-
 ```python
 point = (3, 4)
 x, y = point            # unpacking
 ```
-
 Use tuples for fixed collections (coordinates, records) — they're hashable so can be dict keys.
 
 ### Dictionaries — key/value, ordered (3.7+), mutable
-
 ```python
 person = {"name": "Alice", "age": 30}
 person["age"]
@@ -252,7 +245,6 @@ d3 = person | {"city": "NYC"}
 ```
 
 ### Sets — unordered, unique elements
-
 ```python
 s1 = {1, 2, 3}
 s1.add(4)
@@ -264,7 +256,6 @@ s1 ^ s2      # symmetric difference
 ```
 
 ### `collections` module (very useful)
-
 ```python
 from collections import defaultdict, Counter, namedtuple, deque
 
@@ -321,7 +312,6 @@ def modify_global():
 ```
 
 ### Recursion
-
 ```python
 def factorial(n):
     return 1 if n <= 1 else n * factorial(n - 1)
@@ -369,7 +359,6 @@ print(a.make_sound())
 ```
 
 ### Inheritance
-
 ```python
 class Dog(Animal):
     def __init__(self, name):
@@ -387,7 +376,6 @@ for pet in [Dog("Rex"), Cat("Tom")]:
 ```
 
 ### Encapsulation
-
 ```python
 class Account:
     def __init__(self, balance):
@@ -406,7 +394,6 @@ class Account:
 ```
 
 ### Common magic (dunder) methods
-
 ```python
 class Vector:
     def __init__(self, x, y): self.x, self.y = x, y
@@ -467,7 +454,6 @@ if __name__ == "__main__":     # runs only when executed directly, not when impo
 ```
 
 A **package** is a folder with `__init__.py` containing modules:
-
 ```
 mypackage/
     __init__.py
@@ -532,7 +518,6 @@ def chain(*iterables):
     for it in iterables:
         yield from it
 ```
-
 Generators are **lazy** — values are computed on demand, saving memory for large sequences.
 
 ---
@@ -653,7 +638,6 @@ def process(items: list[int]) -> dict[str, int]: ...
 # 3.10+ union syntax
 def find(x: int | None = None) -> int | str: ...
 ```
-
 Type hints are not enforced at runtime — use `mypy` for static checking.
 
 ---
@@ -680,7 +664,6 @@ if m:
 ## 19. Advanced OOP
 
 ### Abstract Base Classes
-
 ```python
 from abc import ABC, abstractmethod
 
@@ -695,7 +678,6 @@ class Circle(Shape):
 ```
 
 ### `__slots__` — memory optimization
-
 ```python
 class Point:
     __slots__ = ["x", "y"]     # no __dict__, less memory, faster attribute access
@@ -703,7 +685,6 @@ class Point:
 ```
 
 ### Metaclasses — classes that create classes
-
 ```python
 class Meta(type):
     def __new__(mcs, name, bases, namespace):
@@ -717,7 +698,6 @@ MyClass().greet()   # "hi"
 ```
 
 ### Multiple inheritance & MRO
-
 ```python
 class A: pass
 class B: pass
@@ -726,7 +706,6 @@ C.__mro__     # Method Resolution Order — determines lookup order
 ```
 
 ### Dataclasses (Python 3.7+) — reduce boilerplate
-
 ```python
 from dataclasses import dataclass
 
@@ -741,7 +720,6 @@ class Point:
 ## 20. Concurrency
 
 ### Threading — good for I/O-bound tasks (GIL limits true CPU parallelism)
-
 ```python
 import threading
 
@@ -758,7 +736,6 @@ with lock:
 ```
 
 ### Multiprocessing — true parallelism for CPU-bound tasks
-
 ```python
 from multiprocessing import Pool
 
@@ -769,7 +746,6 @@ with Pool(4) as p:
 ```
 
 ### Asyncio — cooperative concurrency for I/O
-
 ```python
 import asyncio
 
@@ -853,7 +829,6 @@ Modern projects use `pyproject.toml` with tools like `poetry` or `uv` for depend
 - The **GIL** (Global Interpreter Lock) means only one thread executes Python bytecode at a time — use multiprocessing for CPU-bound parallelism.
 - Use generators instead of lists for large datasets to save memory.
 - `timeit` module for micro-benchmarking:
-
 ```python
 import timeit
 timeit.timeit("sum(range(100))", number=10000)
@@ -871,7 +846,6 @@ timeit.timeit("sum(range(100))", number=10000)
 - Write docstrings for functions/classes.
 - Use `is` only for `None`, `True`, `False` comparisons — never for value equality.
 - Avoid mutable default arguments:
-
 ```python
 def bad(items=[]): ...       # BUG: shared across calls
 def good(items=None):
@@ -880,13 +854,202 @@ def good(items=None):
 
 ---
 
-## 26. Where to Go Next
+## 26. Deeper Language Internals
+
+### `__new__` vs `__init__`
+`__new__` creates the instance (rarely overridden); `__init__` initializes it. Override `__new__` for immutable types or singletons.
+
+```python
+class Singleton:
+    _instance = None
+    def __new__(cls, *args, **kwargs):
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+        return cls._instance
+```
+
+### Descriptors — the mechanism behind `@property`
+A descriptor is any object defining `__get__`/`__set__`/`__delete__`, used as a class attribute to control access on *any* instance.
+
+```python
+class PositiveNumber:
+    def __set_name__(self, owner, name):
+        self.name = "_" + name
+    def __get__(self, obj, objtype=None):
+        return getattr(obj, self.name)
+    def __set__(self, obj, value):
+        if value < 0:
+            raise ValueError("must be positive")
+        setattr(obj, self.name, value)
+
+class Product:
+    price = PositiveNumber()      # reusable validation across any class
+    def __init__(self, price):
+        self.price = price
+```
+
+### `__init_subclass__` — hook into subclass creation
+```python
+class Plugin:
+    registry = []
+    def __init_subclass__(cls, **kwargs):
+        super().__init_subclass__(**kwargs)
+        Plugin.registry.append(cls)     # auto-register every subclass
+
+class MyPlugin(Plugin): pass
+Plugin.registry   # [MyPlugin]
+```
+
+### More dunder/operator overloading
+```python
+class Money:
+    def __init__(self, amount): self.amount = amount
+    def __lt__(self, other): return self.amount < other.amount
+    def __le__(self, other): return self.amount <= other.amount
+    def __hash__(self): return hash(self.amount)      # needed if __eq__ defined + used in sets/dicts
+    def __contains__(self, item): return item == self.amount
+    def __bool__(self): return self.amount != 0
+```
+
+### Enums
+```python
+from enum import Enum, auto
+
+class Status(Enum):
+    PENDING = auto()
+    ACTIVE = auto()
+    DONE = auto()
+
+Status.ACTIVE.name    # "ACTIVE"
+Status.ACTIVE.value   # 2
+```
+
+### `functools.singledispatch` — function overloading by type
+```python
+from functools import singledispatch
+
+@singledispatch
+def process(arg):
+    print("default", arg)
+
+@process.register
+def _(arg: int):
+    print("int handler", arg)
+
+@process.register
+def _(arg: str):
+    print("str handler", arg)
+```
+
+### Weak references
+```python
+import weakref
+class Node: pass
+n = Node()
+ref = weakref.ref(n)     # doesn't keep n alive; ref() returns None once n is garbage collected
+```
+
+---
+
+## 27. Practical Tooling for Real Projects
+
+### Logging — never use `print()` in real code
+```python
+import logging
+
+logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
+logger = logging.getLogger(__name__)
+
+logger.debug("Detailed diagnostic info")
+logger.info("General info")
+logger.warning("Something unexpected")
+logger.error("A failure occurred")
+logger.exception("Logs full traceback")   # use inside except block
+```
+
+### Debugging
+```python
+# Insert a breakpoint anywhere (Python 3.7+)
+breakpoint()          # drops into pdb debugger at this line
+
+# pdb commands once stopped: n (next), s (step in), c (continue), p var (print), l (list code)
+```
+
+### Environment variables & config
+```python
+import os
+from dotenv import load_dotenv     # pip install python-dotenv
+
+load_dotenv()                      # loads variables from a .env file
+api_key = os.getenv("API_KEY", "default_value")
+```
+
+### Linting & formatting
+```bash
+pip install black ruff mypy
+black .          # auto-formats code to a consistent style
+ruff check .     # fast linter, catches bugs/unused imports/style issues
+mypy .           # static type checker, validates your type hints
+```
+
+### Packaging your own library
+Minimal `pyproject.toml`:
+```toml
+[project]
+name = "mypackage"
+version = "0.1.0"
+dependencies = ["requests"]
+
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+```
+```bash
+pip install build twine
+python -m build             # creates dist/ with .whl and .tar.gz
+twine upload dist/*          # publish to PyPI
+```
+
+### Databases
+```python
+import sqlite3
+conn = sqlite3.connect("app.db")
+cur = conn.cursor()
+cur.execute("CREATE TABLE users (id INTEGER PRIMARY KEY, name TEXT)")
+cur.execute("INSERT INTO users (name) VALUES (?)", ("Alice",))
+conn.commit()
+cur.execute("SELECT * FROM users")
+cur.fetchall()
+```
+For real applications, an ORM like **SQLAlchemy** maps Python classes to database tables instead of writing raw SQL.
+
+### HTTP requests & building an API
+```python
+import requests
+r = requests.get("https://api.example.com/data")
+r.json()
+
+# Minimal API with FastAPI
+from fastapi import FastAPI
+app = FastAPI()
+
+@app.get("/hello/{name}")
+def hello(name: str):
+    return {"message": f"Hello {name}"}
+# run with: uvicorn main:app --reload
+```
+
+---
+
+## 28. Where to Go Next
 
 - Build small projects (CLI tools, web scraper, REST API with FastAPI/Flask).
 - Learn a web framework (Django or FastAPI).
 - Learn `numpy`/`pandas` if going into data.
 - Read real-world open-source Python code.
 - Practice on LeetCode/HackerRank for algorithmic fluency.
-- Read _Fluent Python_ by Luciano Ramalho once comfortable with the basics — it's the definitive "next level" book.
+- Read *Fluent Python* by Luciano Ramalho once comfortable with the basics — it's the definitive "next level" book.
 
 ---
+
+**How to use this guide:** work through sections 1–13 first and write code for each concept yourself — don't just read. Sections 14–20 are where "intermediate" becomes "advanced." Revisit this file as a reference once you start building real projects.
